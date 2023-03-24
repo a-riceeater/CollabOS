@@ -5,9 +5,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const path = require("path")
 
-function rp(p) {
-    return path.join(__dirname, "html/" + p);
-}
+const rp = (p) => { return path.join(__dirname, "html/" + p) }
 
 app.set("socketio", io);
 app.use(express.json());
@@ -23,13 +21,8 @@ app.get("/os/:roomID", (req, res) => {
 })
 
 //Whenever someone connects this gets executed
-io.on('connection', function(socket) {
-   console.log('A user connected');
-
-   //Whenever someone disconnects this piece of code executed
-   socket.on('disconnect', function () {
-      console.log('A user disconnected');
-   });
+io.on('connection', (socket) => {
+   
 });
 
 const port = process.env.port;
