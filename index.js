@@ -1,5 +1,6 @@
 require("dotenv").config();
-const app = require('express')();
+const express = require("express");
+const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const path = require("path")
@@ -7,9 +8,19 @@ const path = require("path")
 function rp(p) {
     return path.join(__dirname, "html/" + p);
 }
-app.get('/', function(req, res) {
+
+app.set("socketio", io);
+app.use(express.json());
+app.use(express.static("public"))
+
+app.get('/', (req, res) => {
    res.sendFile(rp("index.html"));
 });
+
+app.get("/os/:roomID", (req, res) => {
+   console.log(req.params.roomID);
+   res.sendFile(rp("os.html"))
+})
 
 //Whenever someone connects this gets executed
 io.on('connection', function(socket) {
